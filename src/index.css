@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-ink-900 text-chalk font-sans antialiased;
+    font-feature-settings: 'tnum' 1, 'cv01' 1;
+  }
+
+  /* Tabular numbers everywhere financial figures live */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background: rgba(201, 162, 75, 0.28);
+  }
+
+  /* Scrollbars — thin, dark, EOS-like */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #2c374b transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: #2c374b;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: #3f4c63;
+    background-clip: padding-box;
+  }
+}
+
+@layer components {
+  /* Monospace metadata label — used pervasively in EOS mockups */
+  .label {
+    @apply font-mono text-2xs uppercase tracking-label text-faint;
+  }
+  .label-b {
+    @apply font-mono text-2xs uppercase tracking-label text-mute;
+  }
+
+  /* Serif display heading */
+  .display {
+    @apply font-serif font-normal text-chalk;
+  }
+
+  /* Panel — the recurring card container */
+  .panel {
+    @apply rounded-lg border border-line bg-ink-750;
+  }
+  .panel-800 {
+    @apply rounded-lg border border-line bg-ink-800;
+  }
+
+  /* Focus ring */
+  .ring-eos {
+    @apply outline-none focus-visible:ring-2 focus-visible:ring-gold/50 focus-visible:ring-offset-2 focus-visible:ring-offset-ink-900;
+  }
+}
+
+/* Numeric color helpers driven by sign */
+.num-pos {
+  @apply text-gain;
+}
+.num-neg {
+  @apply text-loss;
+}
