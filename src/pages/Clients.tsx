@@ -82,7 +82,7 @@ export function Clients() {
 
 function Kpi({ icon, label, value, sub }: { icon: React.ReactNode; label: string; value: string; sub: string }) {
   return (
-    <div className="rounded-lg border border-line bg-ink-750 p-4">
+    <div className="rounded-xl border border-line bg-ink-750 p-4 shadow-card transition-all duration-200 ease-smooth hover:-translate-y-0.5 hover:shadow-lift">
       <div className="mb-2 flex items-center gap-2">{icon}<span className="label">{label}</span></div>
       <div className="font-mono text-2xl text-chalk tnum">{value}</div>
       <div className="mt-0.5 font-mono text-2xs text-faint">{sub}</div>

@@ -40,8 +40,8 @@ export function Profiles() {
 
 function ProfileCard({ p }: { p: Profile }) {
   return (
-    <Link to={`/allocations/${p.id}`}>
-      <Panel className="group px-5 py-4 transition-colors hover:border-ink-500 hover:bg-ink-700/40">
+    <Link to={`/allocations/${p.id}`} className="block">
+      <Panel className="hover-lift group px-5 py-4 hover:bg-ink-700/40">
         <div className="mb-3 flex items-start justify-between">
           <div>
             <h3 className={cx('font-serif text-xl', riskColor[p.riskType])}>

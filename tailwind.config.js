@@ -64,14 +64,32 @@ export default {
       letterSpacing: {
         label: '0.12em',
       },
+      boxShadow: {
+        soft: '0 1px 2px rgba(0,0,0,0.28)',
+        card: '0 2px 10px -2px rgba(0,0,0,0.35)',
+        lift: '0 14px 34px -12px rgba(0,0,0,0.6)',
+        pop: '0 20px 50px -16px rgba(0,0,0,0.7)',
+        'inset-top': 'inset 0 1px 0 rgba(255,255,255,0.04)',
+      },
+      transitionTimingFunction: {
+        smooth: 'cubic-bezier(0.16,1,0.3,1)',
+      },
       keyframes: {
         'fade-in': {
           '0%': { opacity: '0', transform: 'translateY(4px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
+        'fade-up': {
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
         'slide-in': {
           '0%': { transform: 'translateX(100%)' },
           '100%': { transform: 'translateX(0)' },
+        },
+        'slide-down': {
+          '0%': { opacity: '0', transform: 'translateY(-8px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         'scale-in': {
           '0%': { opacity: '0', transform: 'scale(0.97)' },
@@ -80,8 +98,10 @@ export default {
       },
       animation: {
         'fade-in': 'fade-in 0.25s ease-out',
-        'slide-in': 'slide-in 0.28s cubic-bezier(0.16,1,0.3,1)',
-        'scale-in': 'scale-in 0.18s ease-out',
+        'fade-up': 'fade-up 0.45s cubic-bezier(0.16,1,0.3,1) both',
+        'slide-in': 'slide-in 0.3s cubic-bezier(0.16,1,0.3,1)',
+        'slide-down': 'slide-down 0.22s cubic-bezier(0.16,1,0.3,1)',
+        'scale-in': 'scale-in 0.2s cubic-bezier(0.16,1,0.3,1)',
       },
     },
   },

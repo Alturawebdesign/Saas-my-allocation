@@ -94,8 +94,8 @@ export function Segmented({ options, active, onChange }: { options: string[]; ac
           key={o}
           onClick={() => onChange(o)}
           className={cx(
-            'rounded-md border px-3.5 py-1.5 text-sm transition-colors ring-eos',
-            active === o ? 'border-ink-500 bg-ink-700 text-chalk' : 'border-line bg-transparent text-mute hover:border-ink-500 hover:text-chalk',
+            'rounded-lg border px-3.5 py-1.5 text-sm ring-eos transition-all duration-200 ease-smooth active:scale-[0.97]',
+            active === o ? 'border-ink-500 bg-ink-700 text-chalk shadow-soft' : 'border-line bg-transparent text-mute hover:border-ink-500 hover:text-chalk',
           )}
         >
           {o}
@@ -143,7 +143,15 @@ export function Button({ children, variant = 'default', size = 'md', className, 
   }
   const sizes: Record<string, string> = { sm: 'px-2.5 py-1 text-2xs', md: 'px-3.5 py-2 text-sm' }
   return (
-    <button className={cx('inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors ring-eos', variants[variant], sizes[size], className)} {...rest}>
+    <button
+      className={cx(
+        'inline-flex items-center justify-center gap-2 rounded-lg font-medium ring-eos transition-all duration-200 ease-smooth active:scale-[0.97]',
+        variants[variant],
+        sizes[size],
+        className,
+      )}
+      {...rest}
+    >
       {children}
     </button>
   )

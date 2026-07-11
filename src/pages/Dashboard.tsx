@@ -44,7 +44,7 @@ export function Dashboard() {
       {/* KPI row */}
       <div className="mb-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
         {kpis.map((k) => (
-          <div key={k.label} className={cx('rounded-lg border border-line border-t-2 bg-ink-750 p-4', kpiTone[k.tone])}>
+          <div key={k.label} className={cx('rounded-xl border border-line border-t-2 bg-ink-750 p-4 shadow-card transition-all duration-200 ease-smooth hover:-translate-y-0.5 hover:shadow-lift', kpiTone[k.tone])}>
             <div className="label mb-2">{k.label}</div>
             <div className="font-mono text-3xl text-chalk tnum">{k.value}</div>
             <div className="mt-1 font-mono text-2xs text-faint">{k.sub}</div>
@@ -132,7 +132,7 @@ export function Dashboard() {
             <div className="grid grid-cols-2 gap-2 p-3">
               <button
                 onClick={() => openChat()}
-                className="col-span-1 flex flex-col gap-1 rounded-lg border border-wine/45 bg-wine/15 p-3 text-left transition-colors hover:bg-wine/25"
+                className="col-span-1 flex flex-col gap-1 rounded-xl border border-wine/45 bg-wine/15 p-3 text-left shadow-card transition-all duration-200 ease-smooth hover:-translate-y-0.5 hover:bg-wine/25 hover:shadow-lift active:scale-[0.98]"
               >
                 <MessageSquarePlus size={17} className="text-winebright" />
                 <span className="text-sm font-medium text-chalk">Nouvelle conversation IA</span>
@@ -153,7 +153,7 @@ export function Dashboard() {
 
 function Shortcut({ to, icon, title, sub }: { to: string; icon: React.ReactNode; title: string; sub: string }) {
   return (
-    <Link to={to} className="group flex flex-col gap-1 rounded-lg border border-line bg-ink-800 p-3 transition-colors hover:border-ink-500 hover:bg-ink-700">
+    <Link to={to} className="hover-lift group flex flex-col gap-1 rounded-xl border border-line bg-ink-800 p-3 hover:bg-ink-700">
       <div className="flex items-center justify-between">
         {icon}
         <ChevronRight size={13} className="text-ghost transition-transform group-hover:translate-x-0.5 group-hover:text-mute" />
