@@ -61,12 +61,15 @@ function MetricCard({ label, sub, value, plain }: { label: string; sub?: string;
 
 function Block({ icon, title, right, children }: { icon?: React.ReactNode; title: string; right?: React.ReactNode; children: React.ReactNode }) {
   return (
-    <section className="border-t border-line py-4 first:border-t-0 first:pt-0">
-      <div className="mb-2 flex items-center justify-between">
-        <div className="flex items-center gap-2 label-b">{icon}{title}</div>
+    <section className="border-t border-line/60 py-5 first:border-t-0 first:pt-0">
+      <div className="mb-3 flex items-center justify-between">
+        <div className="flex items-center gap-2.5 text-sm font-medium text-chalk">
+          {icon && <span className="text-gold">{icon}</span>}
+          {title}
+        </div>
         {right}
       </div>
-      <div className="space-y-2 text-sm leading-relaxed text-mute">{children}</div>
+      <div className="space-y-2.5 text-sm leading-relaxed text-mute">{children}</div>
     </section>
   )
 }

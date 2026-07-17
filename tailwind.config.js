@@ -62,7 +62,7 @@ export default {
         '2xs': ['0.6875rem', { lineHeight: '1rem' }],
       },
       letterSpacing: {
-        label: '0.12em',
+        label: '0.08em',
       },
       boxShadow: {
         soft: '0 1px 2px rgba(0,0,0,0.28)',

@@ -53,9 +53,9 @@ export function Panel({ children, className }: { children: ReactNode; className?
 
 export function PanelHeader({ icon, title, right }: { icon?: ReactNode; title: ReactNode; right?: ReactNode }) {
   return (
-    <div className="flex items-center justify-between border-b border-line px-4 py-3">
-      <div className="flex items-center gap-2 label-b">
-        {icon}
+    <div className="flex items-center justify-between border-b border-line/70 px-5 py-3.5">
+      <div className="flex items-center gap-2.5 text-sm font-medium text-chalk">
+        {icon && <span className="text-gold">{icon}</span>}
         {title}
       </div>
       {right}
@@ -94,8 +94,8 @@ export function Segmented({ options, active, onChange }: { options: string[]; ac
           key={o}
           onClick={() => onChange(o)}
           className={cx(
-            'rounded-lg border px-3.5 py-1.5 text-sm ring-eos transition-all duration-200 ease-smooth active:scale-[0.97]',
-            active === o ? 'border-ink-500 bg-ink-700 text-chalk shadow-soft' : 'border-line bg-transparent text-mute hover:border-ink-500 hover:text-chalk',
+            'rounded-full border px-4 py-1.5 text-sm ring-eos transition-all duration-200 ease-smooth active:scale-[0.97]',
+            active === o ? 'border-gold/40 bg-gold/10 text-gold shadow-soft' : 'border-line bg-transparent text-mute hover:border-ink-500 hover:text-chalk',
           )}
         >
           {o}
@@ -141,7 +141,7 @@ export function Button({ children, variant = 'default', size = 'md', className, 
     gold: 'border border-gold/40 bg-gold/12 text-gold hover:bg-gold/20',
     ghost: 'text-mute hover:text-chalk hover:bg-ink-700',
   }
-  const sizes: Record<string, string> = { sm: 'px-2.5 py-1 text-2xs', md: 'px-3.5 py-2 text-sm' }
+  const sizes: Record<string, string> = { sm: 'px-3 py-1.5 text-2xs', md: 'px-4 py-2 text-sm' }
   return (
     <button
       className={cx(

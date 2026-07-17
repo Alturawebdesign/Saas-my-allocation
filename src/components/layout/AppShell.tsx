@@ -10,7 +10,7 @@ export function AppShell() {
   return (
     <div className="min-h-screen bg-ink-900">
       <TopNav />
-      <main className="mx-auto max-w-[1600px] px-4 py-6 sm:px-6">
+      <main className="mx-auto max-w-[1600px] px-4 py-8 sm:px-6">
         {/* Keyed by route → content gently fades up on every navigation */}
         <div key={location.pathname} className="animate-fade-up">
           <Outlet />

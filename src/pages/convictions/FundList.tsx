@@ -100,30 +100,30 @@ export function FundList() {
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-line">
+            <tbody className="divide-y divide-line/60">
               {filtered.map((f) => (
                 <tr key={f.id} onClick={() => navigate(`/convictions/${f.id}`)} className="cursor-pointer transition-colors hover:bg-ink-800">
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-4">
                     <div className="text-sm font-medium text-chalk">{f.name}</div>
-                    <div className="font-mono text-2xs text-faint">{f.sriCategory}</div>
+                    <div className="mt-0.5 text-xs text-faint">{f.sriCategory}</div>
                   </td>
-                  <td className="px-4 py-3">
-                    <div className="font-mono text-2xs text-mute tnum">{f.lastComment}</div>
-                    <div className={cx('font-mono text-2xs', f.freshnessDays > 45 ? 'text-gold' : 'text-faint')}>{f.lastCommentLabel}</div>
+                  <td className="px-4 py-4">
+                    <div className="text-xs text-mute tnum">{f.lastComment}</div>
+                    <div className={cx('mt-0.5 text-xs', f.freshnessDays > 45 ? 'text-gold' : 'text-faint')}>{f.lastCommentLabel}</div>
                   </td>
-                  <td className="px-4 py-3"><RecoPill reco={f.recoFund} /></td>
-                  <td className="px-4 py-3">
-                    <span className="inline-flex items-center gap-1.5">
-                      <span className={cx('font-mono text-2xs', trendClass(f.trend))}>{trendGlyph(f.trend)}</span>
-                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-equilibre/15 font-mono text-2xs text-equilibre tnum">{f.nbClients}</span>
+                  <td className="px-4 py-4"><RecoPill reco={f.recoFund} /></td>
+                  <td className="px-4 py-4">
+                    <span className="inline-flex items-center gap-2">
+                      <span className={cx('text-xs', trendClass(f.trend))}>{trendGlyph(f.trend)}</span>
+                      <span className="flex h-7 w-7 items-center justify-center rounded-full bg-equilibre/15 text-xs text-equilibre tnum">{f.nbClients}</span>
                     </span>
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-4 py-4">
                     <div className={cx('font-mono text-sm tnum', signClass(f.perfYtd))}>{pct(f.perfYtd)}</div>
-                    <div className="font-mono text-2xs text-faint tnum">{frDateShort('2025-03-17')}</div>
+                    <div className="mt-0.5 text-xs text-faint tnum">{frDateShort('2025-03-17')}</div>
                   </td>
-                  <td className="px-4 py-3">
-                    <button onClick={(e) => { e.stopPropagation(); navigate(`/convictions/${f.id}`) }} className="rounded p-1.5 text-mute hover:bg-ink-700 hover:text-chalk">
+                  <td className="px-4 py-4">
+                    <button onClick={(e) => { e.stopPropagation(); navigate(`/convictions/${f.id}`) }} className="rounded-lg p-2 text-mute hover:bg-ink-700 hover:text-chalk">
                       <Pencil size={14} />
                     </button>
                   </td>

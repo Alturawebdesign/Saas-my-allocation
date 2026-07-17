@@ -52,24 +52,24 @@ export function Clients() {
                 {['Client', 'Type', 'Contrats', 'Encours', 'Profils affectés', 'Ordres', 'Statut'].map((h) => <th key={h} className="label px-4 py-2.5 font-normal">{h}</th>)}
               </tr>
             </thead>
-            <tbody className="divide-y divide-line">
+            <tbody className="divide-y divide-line/60">
               {clients.map((c) => (
                 <tr key={c.id} className="hover:bg-ink-800">
-                  <td className="px-4 py-3 text-sm font-medium text-chalk">{c.name}</td>
-                  <td className="px-4 py-3 text-2xs text-mute">{c.type}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex flex-col gap-0.5">
-                      {c.contracts.map((ct) => <span key={ct.label} className="font-mono text-2xs text-mute">{ct.label} <span className="text-faint">· {eurCompact(ct.encours)}</span></span>)}
+                  <td className="px-4 py-4 text-sm font-medium text-chalk">{c.name}</td>
+                  <td className="px-4 py-4 text-xs text-mute">{c.type}</td>
+                  <td className="px-4 py-4">
+                    <div className="flex flex-col gap-1">
+                      {c.contracts.map((ct) => <span key={ct.label} className="text-xs text-mute">{ct.label} <span className="text-faint">· {eurCompact(ct.encours)}</span></span>)}
                     </div>
                   </td>
-                  <td className="px-4 py-3 font-mono text-sm text-chalk tnum">{eurCompact(c.totalEncours)}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex flex-col gap-0.5">
-                      {c.affectedProfiles.map((pr) => <span key={pr} className="text-2xs text-mute">{pr}</span>)}
+                  <td className="px-4 py-4 font-mono text-sm text-chalk tnum">{eurCompact(c.totalEncours)}</td>
+                  <td className="px-4 py-4">
+                    <div className="flex flex-col gap-1">
+                      {c.affectedProfiles.map((pr) => <span key={pr} className="text-xs text-mute">{pr}</span>)}
                     </div>
                   </td>
-                  <td className="px-4 py-3">{c.pendingOrders > 0 ? <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gold/15 font-mono text-2xs text-gold tnum">{c.pendingOrders}</span> : <span className="text-ghost">—</span>}</td>
-                  <td className="px-4 py-3"><Badge tone={statusTone[c.status]}>{c.status}</Badge></td>
+                  <td className="px-4 py-4">{c.pendingOrders > 0 ? <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gold/15 text-xs text-gold tnum">{c.pendingOrders}</span> : <span className="text-ghost">—</span>}</td>
+                  <td className="px-4 py-4"><Badge tone={statusTone[c.status]}>{c.status}</Badge></td>
                 </tr>
               ))}
             </tbody>

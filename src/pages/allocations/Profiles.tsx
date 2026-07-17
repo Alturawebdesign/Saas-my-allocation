@@ -31,7 +31,7 @@ export function Profiles() {
         <span className="label">{list.length} profils</span>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-5">
         {list.map((p) => <ProfileCard key={p.id} p={p} />)}
       </div>
     </>
@@ -41,13 +41,13 @@ export function Profiles() {
 function ProfileCard({ p }: { p: Profile }) {
   return (
     <Link to={`/allocations/${p.id}`} className="block">
-      <Panel className="hover-lift group px-5 py-4 hover:bg-ink-700/40">
+      <Panel className="hover-lift group px-6 py-5 hover:bg-ink-700/40">
         <div className="mb-3 flex items-start justify-between">
           <div>
             <h3 className={cx('font-serif text-xl', riskColor[p.riskType])}>
               {p.riskType} <span className="text-mute">— {p.contracts}</span>
             </h3>
-            <div className="mt-0.5 font-mono text-2xs text-faint">/ Indice : {p.indexClass}</div>
+            <div className="mt-1 text-xs text-faint">Indice : {p.indexClass}</div>
           </div>
           <span className="flex items-center gap-1 font-mono text-2xs text-mute opacity-0 transition-opacity group-hover:opacity-100">
             voir le détail <ArrowUpRight size={12} />

@@ -100,10 +100,10 @@
 
   /* Panel — the recurring card container, now with a hint of elevation */
   .panel {
-    @apply rounded-xl border border-line bg-ink-750 shadow-card;
+    @apply rounded-2xl border border-line bg-ink-750 shadow-card;
   }
   .panel-800 {
-    @apply rounded-xl border border-line bg-ink-800 shadow-card;
+    @apply rounded-2xl border border-line bg-ink-800 shadow-card;
   }
 
   /* Interactive card — lifts and brightens on hover */
