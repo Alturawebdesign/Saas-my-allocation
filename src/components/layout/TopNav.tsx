@@ -3,6 +3,7 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { ChevronDown, Sparkles, TrendingUp, Menu, X } from 'lucide-react'
 import { cx } from '@/lib/format'
 import { useChat } from '@/lib/chatStore'
+import { BRAND_PREFIX, BRAND_ACCENT, USER_NAME, USER_INITIALS } from '@/lib/config'
 
 interface NavItem {
   label: string
@@ -10,30 +11,20 @@ interface NavItem {
   children?: { label: string; to: string; hint?: string }[]
 }
 
+// Clients & Sources vivent désormais dans Admin (Pilotage & Clients / Sources).
 const NAV: NavItem[] = [
   { label: 'Tableau de bord', to: '/' },
+  { label: 'Suivi des fonds', to: '/convictions' },
   {
-    label: 'Convictions',
-    to: '/convictions',
-    children: [
-      { label: 'Base fonds', to: '/convictions', hint: '184 fonds référencés' },
-      { label: 'Short list interne', to: '/convictions?view=shortlist', hint: 'Sélection convictions' },
-      { label: 'Univers par compagnie', to: '/convictions?view=univers', hint: 'Filtrage UC dispo' },
-      { label: 'Statuts A/C/V', to: '/convictions?view=statuts', hint: 'Historique versionné' },
-    ],
-  },
-  {
-    label: 'Allocations',
+    label: "Allocateur d'actifs",
     to: '/allocations',
     children: [
-      { label: 'Mes profils', to: '/allocations', hint: 'Profils par contrat' },
+      { label: 'Compagnies & profils', to: '/allocations', hint: 'Compagnie → contrat → profil' },
       { label: 'Comparateur', to: '/allocations/comparateur', hint: 'Deux profils côte à côte' },
-      { label: "Simulateur d'arbitrage", to: '/allocations/simulateur', hint: 'Allocation Designer' },
+      { label: "Simulateur d'allocation", to: '/allocations/simulateur', hint: 'Briques rendement / risque' },
     ],
   },
   { label: 'Comités', to: '/comites' },
-  { label: 'Clients', to: '/clients' },
-  { label: 'Sources', to: '/sources' },
   { label: 'Conformité', to: '/conformite' },
 ]
 
@@ -147,7 +138,7 @@ export function TopNav() {
             <TrendingUp size={16} />
           </span>
           <span className="font-serif text-[15px] leading-tight text-chalk">
-            CFGP <span className="text-gold">Allocataire</span>
+            {BRAND_PREFIX}<span className="text-gold">{BRAND_ACCENT}</span>
           </span>
         </NavLink>
 
@@ -188,8 +179,8 @@ export function TopNav() {
             Admin
           </NavLink>
           <div className="hidden items-center gap-2 rounded-lg border border-line bg-ink-800 py-1 pl-1 pr-2.5 sm:flex">
-            <span className="flex h-6 w-6 items-center justify-center rounded bg-equilibre/20 font-mono text-2xs text-equilibre">PB</span>
-            <span className="hidden text-2xs text-mute md:inline">Pierre B.</span>
+            <span className="flex h-6 w-6 items-center justify-center rounded bg-equilibre/20 font-mono text-2xs text-equilibre">{USER_INITIALS}</span>
+            <span className="hidden text-2xs text-mute md:inline">{USER_NAME}</span>
           </div>
           {/* Mobile menu toggle */}
           <button

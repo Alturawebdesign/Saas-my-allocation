@@ -60,9 +60,9 @@ export function AllocationDesigner() {
   return (
     <>
       <PageHeader
-        back={{ to: '/allocations', label: 'Retour aux profils' }}
+        back={{ to: '/allocations', label: 'Retour aux compagnies & profils' }}
         title="Simulateur d'allocation"
-        sub="Allocation Designer — comparaison de 3 allocations stratégiques · réf. EXE-06032022"
+        sub="Comparaison de 3 allocations stratégiques par briques rendement / risque · réf. EXE-06032022"
         right={
           <div className="flex rounded-md border border-line bg-ink-800 p-0.5">
             {(['Analysis', 'Backtests'] as const).map((t) => (

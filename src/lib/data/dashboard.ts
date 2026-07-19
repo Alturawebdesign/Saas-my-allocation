@@ -41,10 +41,10 @@ export const activity: ActivityEvent[] = [
   },
   {
     time: 'Hier',
-    actor: 'Pierre B.',
+    actor: 'Pierre C',
     origin: 'Nourrisseur humain',
     text: 'Liste UC Spirica Evolution (SE-2016) mise à jour',
-    sub: 'nourrisseur humain : Pierre B.',
+    sub: 'nourrisseur humain : Pierre C',
   },
 ]
 

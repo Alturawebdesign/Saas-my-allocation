@@ -1,10 +1,24 @@
-import { Users, Building2, Layers, Tags, Bot, Plug, Check } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import {
+  Users, Building2, Layers, Tags, Bot, Plug, Check, Activity, Inbox, ChevronRight,
+  CalendarClock, Sparkles, Landmark, ArrowLeftRight, UserRound,
+} from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
-import { Panel, PanelHeader, Badge } from '@/components/ui'
+import { Panel, PanelHeader, Badge, Note } from '@/components/ui'
 import { insurerContracts } from '@/lib/data/funds'
+import { activity } from '@/lib/data/dashboard'
+import type { ActivityEvent } from '@/lib/types'
+
+const originIcon: Record<ActivityEvent['origin'], React.ReactNode> = {
+  'Chat IA': <Sparkles size={13} className="text-winebright" />,
+  'Agent IA': <Bot size={13} className="text-equilibre" />,
+  Comité: <Landmark size={13} className="text-gold" />,
+  Arbitrage: <ArrowLeftRight size={13} className="text-gain" />,
+  'Nourrisseur humain': <UserRound size={13} className="text-mute" />,
+}
 
 const roles = [
-  { name: 'Pierre B.', role: 'Allocataire', scope: 'Production + Comités' },
+  { name: 'Pierre C', role: 'Allocataire', scope: 'Production + Comités' },
   { name: 'Marie L.', role: 'Analyste', scope: 'Convictions + Sources' },
   { name: 'Direction', role: 'Direction', scope: 'Validation 4 yeux' },
   { name: 'Cabinet Compliance', role: 'Compliance', scope: 'Conformité (lecture + export)' },
@@ -26,7 +40,60 @@ const integrations = [
 export function Admin() {
   return (
     <>
-      <PageHeader title="Administration" sub="Paramétrage · référentiels · rôles · agents IA · intégrations" />
+      <PageHeader title="Administration" sub="Paramétrage · pilotage · sources · rôles · agents IA · intégrations" />
+
+      {/* Pilotage & Clients / Sources — rapatriés du menu principal */}
+      <div className="mb-6 grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <Link to="/clients" className="hover-lift group rounded-2xl border border-line bg-ink-750 p-5 shadow-card hover:bg-ink-700/50">
+          <div className="flex items-center justify-between">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-equilibre/12 text-equilibre"><Users size={17} /></span>
+            <ChevronRight size={15} className="text-ghost transition-transform group-hover:translate-x-0.5" />
+          </div>
+          <div className="mt-3 text-sm font-medium text-chalk">Pilotage &amp; Clients</div>
+          <div className="mt-1 text-xs text-faint">Encours, ordres en attente, campagnes — logique CRM</div>
+        </Link>
+        <Link to="/sources" className="hover-lift group rounded-2xl border border-line bg-ink-750 p-5 shadow-card hover:bg-ink-700/50">
+          <div className="flex items-center justify-between">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gold/12 text-gold"><Inbox size={17} /></span>
+            <ChevronRight size={15} className="text-ghost transition-transform group-hover:translate-x-0.5" />
+          </div>
+          <div className="mt-3 text-sm font-medium text-chalk">Sources</div>
+          <div className="mt-1 text-xs text-faint">Boîte mail, file d'attente, validation — exposé aussi à l'allocataire</div>
+        </Link>
+      </div>
+
+      {/* Calendrier de mises à jour — règles d'alerte */}
+      <Panel className="mb-6">
+        <PanelHeader icon={<CalendarClock size={15} />} title="Calendrier des mises à jour — règles d'alerte" />
+        <div className="grid grid-cols-1 gap-4 p-5 sm:grid-cols-2">
+          <Note tone="gold">
+            <span className="font-medium">Profils :</span> tout profil non modifié depuis <span className="font-medium">4 mois</span> (rythme quadrimestriel) bascule dans la to-do.
+          </Note>
+          <Note tone="gold">
+            <span className="font-medium">Fonds :</span> tout fonds non revu depuis <span className="font-medium">6 mois</span> (rythme semestriel) bascule dans la to-do.
+          </Note>
+        </div>
+      </Panel>
+
+      {/* Activité récente — rapatriée du tableau de bord (vue interne, pas client) */}
+      <Panel className="mb-6">
+        <PanelHeader icon={<Activity size={15} />} title="Activité récente" right={<span className="text-xs text-faint">vue interne — non exposée côté client</span>} />
+        <div className="divide-y divide-line/60">
+          {activity.map((e, i) => (
+            <div key={i} className="flex gap-3.5 px-5 py-3.5">
+              <span className="w-9 shrink-0 pt-1 text-xs text-faint">{e.time}</span>
+              <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line bg-ink-800">{originIcon[e.origin]}</span>
+              <div className="min-w-0">
+                <div className="text-sm leading-relaxed text-chalk">
+                  <span className="font-medium">{e.actor}</span>{' '}
+                  <span className="text-mute">{e.text.replace(new RegExp(`^${e.actor}\\s*`), '')}</span>
+                </div>
+                <div className="mt-0.5 text-xs text-faint">{e.sub}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Panel>
 
       <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
         {/* Users & roles */}

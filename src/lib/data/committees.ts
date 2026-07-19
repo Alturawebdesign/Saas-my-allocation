@@ -7,12 +7,12 @@ export const committees: Committee[] = [
     date: '2026-06-24',
     type: 'Comité GA',
     status: 'En préparation',
-    attendees: ['Pierre B. (Allocataire)', 'Marie L. (Analyste)', 'Direction', 'Compliance'],
+    attendees: ['Pierre C (Allocataire)', 'Marie L. (Analyste)', 'Direction', 'Compliance'],
     decisions: [],
     actions: [
       { label: 'Compiler synthèses agents (8 en file)', owner: 'Marie L.', due: '2026-06-18', done: false },
-      { label: 'Préparer propositions A/C/V (fraîcheur > 45 j)', owner: 'Pierre B.', due: '2026-06-20', done: false },
-      { label: 'Revue macro T3 2026', owner: 'Pierre B.', due: '2026-06-22', done: false },
+      { label: 'Préparer propositions A/C/V (fraîcheur > 45 j)', owner: 'Pierre C', due: '2026-06-20', done: false },
+      { label: 'Revue macro T3 2026', owner: 'Pierre C', due: '2026-06-22', done: false },
     ],
   },
   {
@@ -22,7 +22,7 @@ export const committees: Committee[] = [
     type: 'Comité GA',
     status: 'PV signé',
     signed: true,
-    attendees: ['Pierre B. (Allocataire)', 'Marie L. (Analyste)', 'Direction', 'Compliance'],
+    attendees: ['Pierre C (Allocataire)', 'Marie L. (Analyste)', 'Direction', 'Compliance'],
     decisions: [
       { kind: 'Statut A/C/V', label: 'Carmignac Patrimoine A → Acheter', detail: 'Renforcement obligataire IG court terme confirmé.' },
       { kind: 'Sortie fonds', label: 'Natixis EM → Vendre', detail: 'Signal de sortie émis le 02/05 (FR0010390955). Remplacement avant prochain entretien.' },
@@ -31,7 +31,7 @@ export const committees: Committee[] = [
     actions: [
       { label: 'Notifier 47 clients (campagne HubSpot)', owner: 'Marie L.', due: '2026-06-03', done: true },
       { label: 'Publier 3 décisions A/C/V au registre', owner: 'Compliance', due: '2026-05-28', done: true },
-      { label: 'Émettre ordres O2S vers Harvest', owner: 'Pierre B.', due: '2026-06-05', done: false },
+      { label: 'Émettre ordres O2S vers Harvest', owner: 'Pierre C', due: '2026-06-05', done: false },
     ],
   },
   {
@@ -41,7 +41,7 @@ export const committees: Committee[] = [
     type: 'Comité GA',
     status: 'Archivé',
     signed: true,
-    attendees: ['Pierre B. (Allocataire)', 'Marie L. (Analyste)', 'Direction'],
+    attendees: ['Pierre C (Allocataire)', 'Marie L. (Analyste)', 'Direction'],
     decisions: [
       { kind: 'Nouveau fonds', label: 'Sofidy Sélection 1 P → référencement', detail: 'Ajout foncières cotées zone euro à la buy-list.' },
       { kind: 'Statut A/C/V', label: 'Varenne Valeur → Vendre', detail: 'Rotation vers actions internationales pures.' },
@@ -56,9 +56,9 @@ export const committees: Committee[] = [
     date: '2026-06-10',
     type: 'Comité mensuel',
     status: 'À venir',
-    attendees: ['Pierre B.', 'Marie L.'],
+    attendees: ['Pierre C', 'Marie L.'],
     decisions: [],
-    actions: [{ label: 'Revue fraîcheur listes UC par compagnie', owner: 'Pierre B.', due: '2026-06-10', done: false }],
+    actions: [{ label: 'Revue fraîcheur listes UC par compagnie', owner: 'Pierre C', due: '2026-06-10', done: false }],
   },
 ]
 

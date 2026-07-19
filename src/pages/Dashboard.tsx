@@ -1,16 +1,16 @@
 import { Link } from 'react-router-dom'
 import {
-  Activity, MessageSquarePlus, Layers, Database, Inbox, Landmark, FileOutput,
-  Sparkles, Bot, Landmark as Gov, ArrowLeftRight, UserRound, ChevronRight,
+  Layers, Database, Inbox, Landmark, FileOutput, ChevronRight, TrendingUp, TrendingDown,
+  RefreshCcw, Building2,
 } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
 import { Panel, PanelHeader, Badge } from '@/components/ui'
-import { WeightBar } from '@/components/charts'
-import { kpis, activity, todos, todosTotal, dashboardDate } from '@/lib/data/dashboard'
-import { profiles } from '@/lib/data/profiles'
-import { useChat } from '@/lib/chatStore'
-import { cx, pct, riskColor } from '@/lib/format'
-import type { ActivityEvent } from '@/lib/types'
+import { kpis, dashboardDate, todos, todosTotal } from '@/lib/data/dashboard'
+import { funds } from '@/lib/data/funds'
+import { companies } from '@/lib/data/companies'
+import { profileById } from '@/lib/data/profiles'
+import { cx, pct, riskDot } from '@/lib/format'
+import { USER_FIRSTNAME } from '@/lib/config'
 
 const kpiTone: Record<string, string> = {
   neutral: 'border-t-ink-500',
@@ -19,24 +19,23 @@ const kpiTone: Record<string, string> = {
   blue: 'border-t-equilibre',
 }
 
-const originIcon: Record<ActivityEvent['origin'], React.ReactNode> = {
-  'Chat IA': <Sparkles size={13} className="text-winebright" />,
-  'Agent IA': <Bot size={13} className="text-equilibre" />,
-  Comité: <Gov size={13} className="text-gold" />,
-  Arbitrage: <ArrowLeftRight size={13} className="text-gain" />,
-  'Nourrisseur humain': <UserRound size={13} className="text-mute" />,
-}
-
 const priorityBar: Record<string, string> = { high: 'bg-loss', medium: 'bg-gold', low: 'bg-ink-500' }
 
+/** Top & flop par écart fonds vs catégorie — même logique de lecture que le suivi des fonds. */
+function topFlop() {
+  const scored = funds.map((f) => ({ f, ecart: f.perfYtd - f.perfCatYtd }))
+  const sorted = [...scored].sort((a, b) => b.ecart - a.ecart)
+  return { top: sorted.slice(0, 3), flop: sorted.slice(-3).reverse() }
+}
+
 export function Dashboard() {
-  const { openChat } = useChat()
-  const shown = profiles.slice(0, 6)
+  const { top, flop } = topFlop()
+  const lastProfile = profileById('defensif-axa-cardif')!
 
   return (
     <>
       <PageHeader
-        title="Bonjour Pierre 👋"
+        title={`Bonjour ${USER_FIRSTNAME} 👋`}
         sub={`Voici votre tableau de bord · ${dashboardDate.label} · ${dashboardDate.time}`}
         right={<Badge tone="wine" className="rounded-full px-3.5 py-1.5 text-xs">3 actions urgentes</Badge>}
       />
@@ -55,29 +54,36 @@ export function Dashboard() {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         {/* Left column */}
         <div className="space-y-6 lg:col-span-7">
-          {/* Activité récente */}
+          {/* Top & Flop des fonds */}
           <Panel>
             <PanelHeader
-              icon={<Activity size={14} />}
-              title="Activité récente"
-              right={<button className="font-mono text-2xs text-mute hover:text-chalk">Voir tout →</button>}
+              icon={<TrendingUp size={15} />}
+              title="Top & Flop des fonds"
+              right={<Link to="/convictions" className="text-xs text-mute hover:text-chalk">Tout le suivi →</Link>}
             />
-            <div className="divide-y divide-line/60">
-              {activity.map((e, i) => (
-                <div key={i} className="flex gap-3.5 px-5 py-4">
-                  <span className="w-9 shrink-0 pt-1 text-xs text-faint">{e.time}</span>
-                  <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-line bg-ink-800">{originIcon[e.origin]}</span>
-                  <div className="min-w-0">
-                    <div className="text-sm leading-relaxed text-chalk">
-                      <span className="font-medium">{e.actor}</span>{' '}
-                      <span className="text-mute">{e.text.replace(new RegExp(`^${e.actor}\\s*`), '')}</span>
-                    </div>
-                    <div className="mt-1 text-xs text-faint">
-                      {e.docRef ? <span className="text-gold">{e.sub}</span> : e.sub}
-                    </div>
-                  </div>
+            <div className="grid grid-cols-1 gap-0 sm:grid-cols-2 sm:divide-x sm:divide-line/60">
+              <div className="p-4">
+                <div className="mb-2 flex items-center gap-1.5 text-xs font-medium text-gain"><TrendingUp size={13} /> Top — écart vs catégorie</div>
+                <div className="space-y-1">
+                  {top.map(({ f, ecart }) => (
+                    <Link key={f.id} to={`/convictions/${f.id}`} className="flex items-center justify-between rounded-lg px-2.5 py-2 hover:bg-ink-800">
+                      <span className="min-w-0 truncate pr-2 text-sm text-chalk">{f.name}</span>
+                      <span className="shrink-0 font-mono text-xs text-gain tnum">{pct(ecart)}</span>
+                    </Link>
+                  ))}
                 </div>
-              ))}
+              </div>
+              <div className="border-t border-line/60 p-4 sm:border-t-0">
+                <div className="mb-2 flex items-center gap-1.5 text-xs font-medium text-loss"><TrendingDown size={13} /> Flop — écart vs catégorie</div>
+                <div className="space-y-1">
+                  {flop.map(({ f, ecart }) => (
+                    <Link key={f.id} to={`/convictions/${f.id}`} className="flex items-center justify-between rounded-lg px-2.5 py-2 hover:bg-ink-800">
+                      <span className="min-w-0 truncate pr-2 text-sm text-chalk">{f.name}</span>
+                      <span className="shrink-0 font-mono text-xs text-loss tnum">{pct(ecart)}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
           </Panel>
 
@@ -85,7 +91,7 @@ export function Dashboard() {
           <Panel>
             <PanelHeader
               title="Mes actions à mener"
-              right={<Link to="/sources" className="font-mono text-2xs text-mute hover:text-chalk">{todosTotal} au total →</Link>}
+              right={<Link to="/admin" className="text-xs text-mute hover:text-chalk">{todosTotal} au total →</Link>}
             />
             <div className="p-3">
               {todos.map((t, i) => (
@@ -104,25 +110,52 @@ export function Dashboard() {
 
         {/* Right column */}
         <div className="space-y-6 lg:col-span-5">
-          {/* Performances profils */}
+          {/* Dernières mises à jour (vue publique — l'activité détaillée vit dans Admin) */}
+          <Panel>
+            <PanelHeader icon={<RefreshCcw size={14} />} title="Dernières mises à jour" />
+            <div className="divide-y divide-line/60">
+              <Link to={`/allocations/${lastProfile.id}`} className="flex items-center gap-3 px-5 py-3.5 hover:bg-ink-800">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gold/12 text-gold"><Layers size={15} /></span>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm text-chalk">Dernier profil mis à jour</div>
+                  <div className="text-xs text-faint">Défensif — Cardif Elite · arbitrage du 26/09</div>
+                </div>
+                <ChevronRight size={14} className="text-ghost" />
+              </Link>
+              <Link to="/convictions/carmignac-patrimoine-a" className="flex items-center gap-3 px-5 py-3.5 hover:bg-ink-800">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-equilibre/12 text-equilibre"><Database size={15} /></span>
+                <div className="min-w-0 flex-1">
+                  <div className="text-sm text-chalk">Dernier fonds mis à jour</div>
+                  <div className="text-xs text-faint">Carmignac Patrimoine A · il y a 4 jours</div>
+                </div>
+                <ChevronRight size={14} className="text-ghost" />
+              </Link>
+            </div>
+          </Panel>
+
+          {/* Entrée par compagnie — navigation descendante */}
           <Panel>
             <PanelHeader
-              title="Performances profils (YTD)"
-              right={<Link to="/allocations" className="font-mono text-2xs text-mute hover:text-chalk">Détail →</Link>}
+              icon={<Building2 size={14} />}
+              title="Allocations par compagnie"
+              right={<Link to="/allocations" className="text-xs text-mute hover:text-chalk">Tout voir →</Link>}
             />
             <div className="divide-y divide-line/60">
-              {shown.map((p) => (
-                <Link key={p.id} to={`/allocations/${p.id}`} className="flex items-center gap-3 px-5 py-3 hover:bg-ink-800">
-                  <div className="min-w-0 flex-1">
-                    <div className={cx('font-serif text-sm', riskColor[p.riskType])}>{p.riskType}</div>
-                    <div className="text-xs text-faint">{p.contracts}</div>
-                  </div>
-                  <WeightBar value={p.metric.perfYtd} tone={p.metric.perfYtd >= 0 ? 'pos' : 'neg'} />
-                  <span className={cx('w-20 whitespace-nowrap text-right font-mono text-sm tnum', p.metric.perfYtd >= 0 ? 'text-gain' : 'text-loss')}>
-                    {pct(p.metric.perfYtd)}
-                  </span>
-                </Link>
-              ))}
+              {companies.map((c) => {
+                const riskTypes = Array.from(new Set(c.contracts.flatMap((ct) => ct.profiles.map((p) => p.riskType))))
+                return (
+                  <Link key={c.slug} to={`/allocations?compagnie=${c.slug}`} className="flex items-center gap-3 px-5 py-3 hover:bg-ink-800">
+                    <div className="min-w-0 flex-1">
+                      <div className="font-serif text-sm text-chalk">{c.name}</div>
+                      <div className="text-xs text-faint">{c.contracts.length} contrat{c.contracts.length > 1 ? 's' : ''} · {c.contracts.map((ct) => ct.label).join(' · ')}</div>
+                    </div>
+                    <span className="flex shrink-0 items-center gap-1.5">
+                      {riskTypes.map((r) => <span key={r} title={r} className={cx('h-2.5 w-2.5 rounded-full', riskDot[r])} />)}
+                    </span>
+                    <ChevronRight size={14} className="shrink-0 text-ghost" />
+                  </Link>
+                )
+              })}
             </div>
           </Panel>
 
@@ -130,18 +163,10 @@ export function Dashboard() {
           <Panel>
             <PanelHeader title="Raccourcis" />
             <div className="grid grid-cols-2 gap-3 p-4">
-              <button
-                onClick={() => openChat()}
-                className="col-span-1 flex flex-col gap-1 rounded-xl border border-wine/45 bg-wine/15 p-3 text-left shadow-card transition-all duration-200 ease-smooth hover:-translate-y-0.5 hover:bg-wine/25 hover:shadow-lift active:scale-[0.98]"
-              >
-                <MessageSquarePlus size={17} className="text-winebright" />
-                <span className="text-sm font-medium text-chalk">Nouvelle conversation IA</span>
-                <span className="text-xs text-faint">Génère allocation, ordres, mémo</span>
-              </button>
-              <Shortcut to="/allocations" icon={<Layers size={17} className="text-equilibre" />} title="Mes profils (13)" sub="Allocations par contrat" />
-              <Shortcut to="/convictions" icon={<Database size={17} className="text-gold" />} title="Base fonds" sub="184 fonds référencés" />
-              <Shortcut to="/sources" icon={<Inbox size={17} className="text-equilibre" />} title="Intrants Sources" sub="8 à valider · 23 en file" />
+              <Shortcut to="/allocations" icon={<Layers size={17} className="text-equilibre" />} title="Allocateur d'actifs" sub="Compagnie → contrat → profil" />
+              <Shortcut to="/convictions" icon={<Database size={17} className="text-gold" />} title="Suivi des fonds" sub="184 fonds référencés" />
               <Shortcut to="/comites" icon={<Landmark size={17} className="text-gold" />} title="Prochain comité" sub="24 juin · préparation" />
+              <Shortcut to="/admin" icon={<Inbox size={17} className="text-equilibre" />} title="Admin · Sources" sub="8 à valider · 23 en file" />
               <Shortcut to="/clients" icon={<FileOutput size={17} className="text-gain" />} title="Export O2S Harvest" sub="Ordres en attente : 47" />
             </div>
           </Panel>

@@ -33,8 +33,8 @@ export function FundDetail() {
       <div className="mb-5 grid grid-cols-2 gap-4 lg:grid-cols-4">
         <MetricCard label="Performance du fonds" sub="YTD" value={<span className={signClass(fund.perfYtd)}>{pct(fund.perfYtd)}</span>} />
         <MetricCard label="Performance catégorie" sub="YTD" value={<span className={signClass(fund.perfCatYtd)}>{pct(fund.perfCatYtd)}</span>} />
-        <MetricCard label="Recommandation fonds" value={<RecoPill reco={fund.recoFund} />} plain />
-        <MetricCard label="Recommandation catégorie" value={<RecoPill reco={fund.recoCategory} />} plain />
+        <MetricCard label="Recommandation fonds" value={<span title={fund.analysis.recoFundText} className="cursor-help"><RecoPill reco={fund.recoFund} /></span>} plain />
+        <MetricCard label="Recommandation catégorie" value={<span title={fund.analysis.recoCategoryText} className="cursor-help"><RecoPill reco={fund.recoCategory} /></span>} plain />
       </div>
 
       <Tabs tabs={TABS} active={tab} onChange={setTab} className="mb-5" />
@@ -80,8 +80,13 @@ function AnalyseTab({ fund }: { fund: Fund }) {
     <Panel className="px-5 py-4">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
         <span className="text-sm text-chalk">Interlocuteur : <span className="text-mute">{fund.interlocutor}</span></span>
-        <span className="font-mono text-2xs text-faint">Dernière mise à jour {fund.lastComment}</span>
+        <span className="text-xs text-faint">Dernière mise à jour {fund.lastComment}</span>
       </div>
+
+      <Note tone="gold">
+        <span className="font-medium">Pré-remplissage automatique disponible :</span> 2 propositions issues des newsletters reçues (Supabase) pour « Commentaire actualité » et « Vue du gérant » — source : Newsletter {fund.sgp} · 22/04. Il s'agit d'une proposition : votre commentaire personnel n'est jamais écrasé.
+      </Note>
+      <div className="mb-1 mt-4" />
 
       <Block icon={<FileText size={13} />} title="Commentaire actualité"><p>{a.actualite}</p></Block>
       <Block icon={<BarChart3 size={13} />} title="Vue du gérant">{a.vueGerant.map((p, i) => <p key={i}>{p}</p>)}</Block>
@@ -193,7 +198,7 @@ function SimilarTab({ fund }: { fund: Fund }) {
   return (
     <Panel className="p-5">
       <h3 className="mb-2 font-serif text-lg text-chalk">
-        Sélection de fonds EOS pour la catégorie <span className="italic text-gold">{fund.category}</span>
+        Sélection de l'allocataire pour la catégorie <span className="italic text-gold">{fund.category}</span>
       </h3>
       <Note tone="gain">Cette sélection résulte d'un double objectif : un référencement large et/ou des fonds concurrentiels.</Note>
       <div className="my-4">
@@ -203,15 +208,23 @@ function SimilarTab({ fund }: { fund: Fund }) {
         <table className="w-full">
           <thead>
             <tr className="border-b border-line text-left">
-              <th className="label px-4 py-2.5 font-normal">Classement EOS</th>
+              <th className="label px-4 py-2.5 font-normal">Classement allocataire</th>
+              <th className="label px-4 py-2.5 font-normal">Classement externe</th>
               <th className="label px-4 py-2.5 font-normal">Nom du fonds</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-line">
+          <tbody className="divide-y divide-line/60">
             {similarFunds.map((s) => (
               <tr key={s.rank} className={cx('transition-colors hover:bg-ink-800', s.consulted && 'bg-gold/[0.06]')}>
                 <td className="px-4 py-2.5">
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-gain/15 font-mono text-2xs text-gain tnum">{s.rank}</span>
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gain/15 text-xs text-gain tnum">{s.rank}</span>
+                </td>
+                <td className="px-4 py-2.5">
+                  {s.externalRank != null ? (
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink-700 text-xs text-mute tnum">{s.externalRank}</span>
+                  ) : (
+                    <span className="text-ghost">—</span>
+                  )}
                 </td>
                 <td className="px-4 py-2.5">
                   <span className="text-sm text-chalk">{s.name}</span>

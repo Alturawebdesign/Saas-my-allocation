@@ -45,7 +45,7 @@ export const sources: SourceItem[] = [
     sgp: 'Spirica',
     status: 'Validé / en base',
     receivedAt: '2026-05-27',
-    humanValidator: 'Pierre B.',
+    humanValidator: 'Pierre C',
     summary: 'Mise à jour mensuelle de la liste des supports UC disponibles sur le contrat SE-2016.',
   },
   {

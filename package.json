@@ -1,9 +1,9 @@
 {
-  "name": "cfgp-allocataire",
+  "name": "myallocation",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "CFGP Allocataire — SaaS d'allocation d'actifs, sélection de fonds et gouvernance pour cabinet de gestion de patrimoine. IA-native, traçabilité réglementaire.",
+  "description": "MyAllocation — SaaS d'allocation d'actifs, suivi des fonds et gouvernance réglementaire pour allocataire indépendant. Vitrine du travail de l'allocataire, duplicable par partenaire.",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

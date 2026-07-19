@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Search, Download, SlidersHorizontal, Pencil } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
-import { Panel, RecoPill, Button } from '@/components/ui'
+import { Panel, Button } from '@/components/ui'
 import { funds, TOTAL_TRACKED } from '@/lib/data/funds'
 import { cx, pct, signClass, trendClass, trendGlyph, frDateShort } from '@/lib/format'
 
@@ -10,19 +10,18 @@ export function FundList() {
   const navigate = useNavigate()
   const [q, setQ] = useState('')
   const [sgp, setSgp] = useState('Toutes')
-  const [excludeEos, setExcludeEos] = useState(true)
 
   const sgps = useMemo(() => ['Toutes', ...Array.from(new Set(funds.map((f) => f.sgp))).sort()], [])
 
   const filtered = useMemo(
     () =>
       funds.filter((f) => {
-        if (q && !f.name.toLowerCase().includes(q.toLowerCase())) return false
+        const needle = q.trim().toLowerCase()
+        if (needle && !f.name.toLowerCase().includes(needle) && !f.isin.toLowerCase().includes(needle)) return false
         if (sgp !== 'Toutes' && f.sgp !== sgp) return false
-        if (excludeEos && f.eosExcluded) return false
         return true
       }),
-    [q, sgp, excludeEos],
+    [q, sgp],
   )
 
   return (
@@ -49,8 +48,8 @@ export function FundList() {
                 <input
                   value={q}
                   onChange={(e) => setQ(e.target.value)}
-                  placeholder="Recherche par nom de fonds"
-                  className="w-full rounded-md border border-line bg-ink-800 py-2 pl-9 pr-3 text-sm text-chalk placeholder:text-ghost focus:border-ink-500 focus:outline-none"
+                  placeholder="Recherche par libellé ou code ISIN"
+                  className="w-full rounded-lg border border-line bg-ink-800 py-2 pl-9 pr-3 text-sm text-chalk placeholder:text-ghost focus:border-ink-500 focus:outline-none"
                 />
               </div>
               <Button variant="default"><Search size={14} /> Rechercher</Button>
@@ -58,19 +57,13 @@ export function FundList() {
           </div>
           <div>
             <div className="label mb-2">Filtres</div>
-            <div className="flex flex-wrap items-center gap-4">
-              <div>
-                <label className="mb-1 block font-mono text-[10px] text-faint">Société de gestion</label>
-                <select value={sgp} onChange={(e) => setSgp(e.target.value)} className="rounded-md border border-line bg-ink-800 px-3 py-2 text-sm text-chalk focus:border-ink-500 focus:outline-none">
-                  {sgps.map((s) => (
-                    <option key={s}>{s}</option>
-                  ))}
-                </select>
-              </div>
-              <label className="flex cursor-pointer items-center gap-2 text-sm text-mute">
-                <input type="checkbox" checked={excludeEos} onChange={(e) => setExcludeEos(e.target.checked)} className="h-4 w-4 accent-gain" />
-                Fonds EOS Allocations exclus
-              </label>
+            <div>
+              <label className="mb-1 block text-xs text-faint">Société de gestion</label>
+              <select value={sgp} onChange={(e) => setSgp(e.target.value)} className="rounded-lg border border-line bg-ink-800 px-3 py-2 text-sm text-chalk focus:border-ink-500 focus:outline-none">
+                {sgps.map((s) => (
+                  <option key={s}>{s}</option>
+                ))}
+              </select>
             </div>
           </div>
         </div>
@@ -82,8 +75,8 @@ export function FundList() {
           <span className="text-chalk">{filtered.length}</span> fonds correspondent à votre recherche :
         </span>
         <button
-          onClick={() => { setQ(''); setSgp('Toutes'); setExcludeEos(true) }}
-          className="flex items-center gap-1 font-mono text-2xs text-mute hover:text-chalk"
+          onClick={() => { setQ(''); setSgp('Toutes') }}
+          className="flex items-center gap-1.5 text-xs text-mute hover:text-chalk"
         >
           <SlidersHorizontal size={12} /> Supprimer les filtres / tri
         </button>
@@ -111,7 +104,14 @@ export function FundList() {
                     <div className="text-xs text-mute tnum">{f.lastComment}</div>
                     <div className={cx('mt-0.5 text-xs', f.freshnessDays > 45 ? 'text-gold' : 'text-faint')}>{f.lastCommentLabel}</div>
                   </td>
-                  <td className="px-4 py-4"><RecoPill reco={f.recoFund} /></td>
+                  <td className="px-4 py-4">
+                    <span className="inline-flex items-center gap-2">
+                      <span className={cx('font-mono text-sm', f.recoFund === 'Positive' ? 'text-gain' : f.recoFund === 'Négative' ? 'text-loss' : 'text-mute')}>
+                        {f.recoFund === 'Positive' ? '▲' : f.recoFund === 'Négative' ? '▼' : '='}
+                      </span>
+                      <span className="text-xs text-mute">{f.recoFund}</span>
+                    </span>
+                  </td>
                   <td className="px-4 py-4">
                     <span className="inline-flex items-center gap-2">
                       <span className={cx('text-xs', trendClass(f.trend))}>{trendGlyph(f.trend)}</span>

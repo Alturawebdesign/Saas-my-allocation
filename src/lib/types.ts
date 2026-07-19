@@ -52,7 +52,7 @@ export interface Fund {
   lastComment: string // date ISO
   lastCommentLabel: string // e.g. "Mise à jour trimestrielle"
   freshnessDays: number // days since last verification
-  eosExcluded: boolean // is this one of "our" funds (EOS/CFGP models)
+  eosExcluded: boolean // fonds appartenant aux allocations maison (héritage maquette, non filtré en UI)
   ethykScore: EthykScore
   analysis: FundAnalysis
   parts: FundPart[]
@@ -82,6 +82,7 @@ export interface FundAnalysis {
 
 export interface SimilarFund {
   rank: number
+  externalRank?: number
   name: string
   consulted?: boolean
 }
@@ -106,6 +107,7 @@ export interface InventoryLine {
   sri: number
   fees: number
   perfSinceJan: number
+  perfSinceBuy?: number
   quotePart: number
   category?: string
   reporting?: boolean

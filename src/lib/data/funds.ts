@@ -20,7 +20,7 @@ const lazardSmallCaps: Fund = {
   lastCommentLabel: 'Mise à jour trimestrielle',
   freshnessDays: 12,
   eosExcluded: false,
-  interlocutor: 'Jean-François Cardinet (gérant)',
+  interlocutor: 'Jean-François C. (gérant)',
   managerCompanyBlurb:
     'Lazard Frères Gestion — société de gestion française, filiale du groupe Lazard. Expertise historique sur les actions européennes et la sélection de petites et moyennes capitalisations.',
   ethykScore: {
@@ -139,21 +139,21 @@ export const funds: Fund[] = [lazardSmallCaps, ...roster.map(fillFund)]
 
 export const funcById = (id: string) => funds.find((f) => f.id === id)
 
-/** Ranked EOS selection for the "Fonds similaires" tab (Actions Europe Ptes/Moy Caps). */
+/** Sélection classée de l'allocataire pour l'onglet « Fonds similaires » (+ classement externe). */
 export const similarFunds: SimilarFund[] = [
-  { rank: 1, name: 'Indépendance France Small & Mid' },
-  { rank: 2, name: 'Alken Small Cap Europe' },
-  { rank: 3, name: 'HMG Découvertes' },
-  { rank: 4, name: 'Indépendance Europe Small' },
-  { rank: 5, name: 'Valboa — Engagement ISR' },
-  { rank: 6, name: 'Gay-Lussac Microcaps Europe' },
-  { rank: 7, name: 'MainFirst Top European Ideas Fund' },
-  { rank: 8, name: 'IDAM Small Euro' },
-  { rank: 9, name: 'IDAM Small France' },
-  { rank: 10, name: 'Lazard Small Caps France', consulted: true },
-  { rank: 11, name: 'Sextant PME' },
-  { rank: 12, name: 'Amplegest PME' },
-  { rank: 13, name: 'Gay-Lussac Microcaps' },
+  { rank: 1, externalRank: 2, name: 'Indépendance France Small & Mid' },
+  { rank: 2, externalRank: 5, name: 'Alken Small Cap Europe' },
+  { rank: 3, externalRank: 1, name: 'HMG Découvertes' },
+  { rank: 4, externalRank: 3, name: 'Indépendance Europe Small' },
+  { rank: 5, externalRank: 9, name: 'Valboa — Engagement ISR' },
+  { rank: 6, externalRank: 4, name: 'Gay-Lussac Microcaps Europe' },
+  { rank: 7, externalRank: 11, name: 'MainFirst Top European Ideas Fund' },
+  { rank: 8, externalRank: 6, name: 'IDAM Small Euro' },
+  { rank: 9, externalRank: 8, name: 'IDAM Small France' },
+  { rank: 10, externalRank: 7, name: 'Lazard Small Caps France', consulted: true },
+  { rank: 11, externalRank: 13, name: 'Sextant PME' },
+  { rank: 12, externalRank: 10, name: 'Amplegest PME' },
+  { rank: 13, externalRank: 12, name: 'Gay-Lussac Microcaps' },
 ]
 
 export const TOTAL_TRACKED = 184

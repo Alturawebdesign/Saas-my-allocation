@@ -17,8 +17,8 @@ export function AppShell() {
         </div>
       </main>
 
-      {/* Floating Chat IA launcher — omniprésent */}
-      {!open && (
+      {/* Lanceur Chat IA flottant — retiré du tableau de bord (le chat garde sa page dédiée) */}
+      {!open && location.pathname !== '/' && (
         <button
           onClick={() => openChat()}
           aria-label="Ouvrir le Chat IA"
